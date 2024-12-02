@@ -1,10 +1,5 @@
-opencv-python
-
-
-
 #upload  an images
 import streamlit as st
-
 # Streamlit file uploader
 uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
 
@@ -14,8 +9,6 @@ if uploaded_file is not None:
     import PIL.Image
     image = PIL.Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image.", use_column_width=True)
-
-
 import cv2
 
 #Load Haar cascade for face detection
@@ -40,8 +33,8 @@ for(x,y,w,h) in faces:
 cv2.imshow(image)
 
 #!pip install opencv-python-headless # To install opencv-python-headless library using pip
-import cv2 # Import the necessary library
-from google.colab.patches import cv2_imshow # Import the required function for displaying images in Colab
+#import cv2 # Import the necessary library
+#from google.colab.patches import cv2_imshow # Import the required function for displaying images in Colab
 
 #LOAD th uploaded image
 # ... (rest of your code) ...
