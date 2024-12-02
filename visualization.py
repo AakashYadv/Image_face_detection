@@ -1,43 +1,37 @@
-#upload  an images
 import streamlit as st
+import cv2
+import PIL.Image
+import numpy as np
+
 # Streamlit file uploader
 uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
-    # Read the file into an image or other data format
-    # Example: to display the image
-    import PIL.Image
+    # Read the uploaded file into an image using PIL
     image = PIL.Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image.", use_column_width=True)
-import cv2
 
-#Load Haar cascade for face detection
-cascade_file=cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-cascade = cv2.CascadeClassifier(cascade_file)
+    # Convert the image to a numpy array for OpenCV processing
+    image_np = np.array(image)
 
-#LOAD th uploaded image
-image_path=list(uploaded.keys())[0]
-image=cv2.imread(image_path)
+    # Convert RGB to BGR (OpenCV uses BGR format)
+    image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
 
-#Convert image to grayscale
-gray=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    # Load Haar cascade for face detection
+    cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+    cascade = cv2.CascadeClassifier(cascade_file)
 
-#DETECT FACE
-faces=cascade.detectMultiScale(gray,scaleFactor=1.1,minNeighbors=5,minSize=(30,30)) # Using cascade instead of face_cascade
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
 
-#DRAW eectangles around detected faces
-for(x,y,w,h) in faces:
-  cv2.rectangle(image,(x,y),(x+w,y+h),(0,255,0),2)
+    # Detect faces
+    faces = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-#Display the result
-cv2.imshow(image)
+    # Draw rectangles around detected faces
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image_bgr, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-#!pip install opencv-python-headless # To install opencv-python-headless library using pip
-#import cv2 # Import the necessary library
-#from google.colab.patches import cv2_imshow # Import the required function for displaying images in Colab
+    # Convert the image back to RGB for display in Streamlit
+    result_image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-#LOAD th uploaded image
-# ... (rest of your code) ...
-
-#Display the result
-cv2_imshow(image)  # Use cv2_imshow instead of cv2.imshow
+    # Display the processed image in Streamlit
+    st.image(result_image, caption="Processed Image with Face Detection", use_column_width=True)
