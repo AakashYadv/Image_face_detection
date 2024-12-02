@@ -8,8 +8,18 @@ Original file is located at
 """
 
 #upload  an images
-from google.colab import  files
-uploaded=files.upload()
+import streamlit as st
+
+# Streamlit file uploader
+uploaded_file = st.file_uploader("Choose a file", type=["jpg", "png", "jpeg"])
+
+if uploaded_file is not None:
+    # Read the file into an image or other data format
+    # Example: to display the image
+    import PIL.Image
+    image = PIL.Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image.", use_column_width=True)
+
 
 import cv2
 
