@@ -34,7 +34,7 @@ for(x,y,w,h) in faces:
 #Display the result
 cv2.imshow(image)
 
-!pip install opencv-python-headless # To install opencv-python-headless library using pip
+#!pip install opencv-python-headless # To install opencv-python-headless library using pip
 import cv2 # Import the necessary library
 from google.colab.patches import cv2_imshow # Import the required function for displaying images in Colab
 
